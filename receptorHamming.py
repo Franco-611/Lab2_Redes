@@ -12,8 +12,10 @@ def is_power_of_two(n):
 def detect_error(hamming_code):
     error_bit = 0
     r = calculate_parity_bits(len(hamming_code))
+    r = len(hamming_code) - r
 
     for i in range(r):
+        print(i)
         parity_bit = 2 ** i
         if parity_bit <= len(hamming_code):
             ones_count = sum(

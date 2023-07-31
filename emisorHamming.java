@@ -20,8 +20,10 @@ public class emisorHamming {
         // Crear un array de caracteres que contenga la trama y los bits de paridad
         char[] hammingCode = generateHammingCode(input, r);
 
-        System.out.println("El mensaje en binario con la información adicional es: ");
-        System.out.println(hammingCode);
+        System.out.println("El mensaje en binario con la informacion adicional es: ");
+        for (int i = hammingCode.length - 1; i >= 0; i--) {
+            System.out.print(hammingCode[i]);
+        }
     }
 
     private static int calculateNumberOfParityBits(int dataLength) {
@@ -43,13 +45,13 @@ public class emisorHamming {
         int parityIndex = 0;
 
         // Llenar el array de hammingCode con "_", esto nos permite mantener los índices consistentes
-        for (int i = 0; i < hammingCodeLength; i++) {
-            if (i == (1 << parityIndex) - 1) {
-                hammingCode[i] = '_';
+        for (int i = 1; i <= hammingCodeLength; i++) { // Ajustamos la condición del for
+            if (i == (1 << parityIndex)) {
+                hammingCode[i - 1] = '_'; // Ajustamos el índice al asignar el valor
                 parityIndex++;
             } else {
                 // Agregar el bit de la trama original en la posición actual del índice
-                hammingCode[i] = input.charAt(dataIndex);
+                hammingCode[i - 1] = input.charAt(dataIndex);
                 dataIndex++;
             }
         }
