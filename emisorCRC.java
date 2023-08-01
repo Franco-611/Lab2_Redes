@@ -1,69 +1,106 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class emisorCRC {
 
-    private static final long POLYNOMIAL = 0xEDB88320L; // Modificar que el polinomio sea correcto
-    private static final int CRC_LENGTH = 32; 
+    private static final int[] CRC_32 = {
+        1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+        1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1
+    };
+
+
+    // private static final int[] CRC_32 = {
+    //     1, 0, 0, 1
+    // };
+
+    private static final int CRC_LENGTH = 33;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese la trama en binario: ");
         String input = scanner.nextLine().trim();
 
-        if (input.length() <= CRC_LENGTH) {
-            System.out.println("Error: La longitud de la trama debe ser mayor que 3.");
-            return;
-        }
-
-        int[] message = new int[input.length()];
+        ArrayList<Integer> message = new ArrayList<>();
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
             if (c == '0') {
-                message[i] = 0;
+                message.add(0);
             } else if (c == '1') {
-                message[i] = 1;
+                message.add(1);
             } else {
                 System.out.println("Error: La trama debe contener solo 0s y 1s.");
                 return;
             }
         }
 
-        int n = input.length();
-        int[] crc32 = calculateCRC32(message, n);
-        int[] additionalInfo = new int[CRC_LENGTH];
-        for (int i = 0; i < CRC_LENGTH; i++) {
-            additionalInfo[i] = crc32[i];
+        int n = message.size();
+        int[] crc32 = calculateCRC(message, n);
+    }
+
+    private static int[] calculateCRC(ArrayList<Integer> message, int n) {
+        int[] crcMessage = new int[message.size() + CRC_LENGTH];
+
+        for (int i = 0; i < message.size(); i++) {
+            crcMessage[i] = message.get(i);
         }
 
-        int[] result = new int[n + CRC_LENGTH];
-        System.arraycopy(message, 0, result, 0, n);
-        System.arraycopy(additionalInfo, 0, result, n, CRC_LENGTH);
+        for (int i = message.size(); i < crcMessage.length; i++) {
+            crcMessage[i] = 0;
+        }
 
-        System.out.print("Resultado (mensaje con la info adicional): ");
-        for (int bit : result) {
+        int[] tempCRC = new int[CRC_LENGTH];
+        // Calcular el CRC tomando en cuenta solo los primeros CRC_LENGTH bits
+        for (int i = 0; i < CRC_LENGTH; i++) {
+            tempCRC[i] = crcMessage[i];
+        }
+
+
+        // Realizar la operación de división binaria y almacenar el resultado en tempCRC
+        for (int i = 0; i < n; i++) {
+            if (tempCRC[0] == 1) {
+
+                for (int j = 0; j < CRC_LENGTH; j++) {
+                    tempCRC[j] ^= CRC_32[j];
+                }
+            }
+
+            
+            // Desplazar a la izquierda los bits restantes
+            for (int j = 0; j < CRC_LENGTH - 1; j++) {
+                tempCRC[j] = tempCRC[j + 1];
+            }
+            tempCRC[CRC_LENGTH - 1] = crcMessage[i + CRC_LENGTH];
+
+
+        }
+        
+        for (int i = n; i < crcMessage.length - CRC_LENGTH; i++) {
+            crcMessage[i] = message.get(i - n);
+        }
+        for (int i = crcMessage.length - CRC_LENGTH, j = 0; i < crcMessage.length - 1; i++, j++) {
+            crcMessage[i] = tempCRC[j];
+        }
+
+        int newLength = crcMessage.length - 1;
+
+        int[] newCrcMessage = new int[newLength];
+
+        for (int i = 0; i < newLength; i++) {
+            newCrcMessage[i] = crcMessage[i];
+        }
+
+        crcMessage = newCrcMessage;
+
+
+
+        System.out.println("Mensaje con CRC:");
+        for (int bit : crcMessage) {
             System.out.print(bit);
         }
+        System.out.println();
+
+        return crcMessage;
     }
 
-    private static int[] calculateCRC32(int[] message, int n) {
-        int[] crc32 = new int[CRC_LENGTH];
-        int register = 0x0;
 
-        for (int i = 0; i < n; i++) {
-            int msb = (register >> (CRC_LENGTH - 1)) & 1;
-
-            register <<= 1;
-            register |= message[i];
-
-            if (msb == 1) {
-                register ^= POLYNOMIAL;
-            }
-        }
-
-        for (int i = 0; i < CRC_LENGTH; i++) {
-            crc32[i] = (register >> ((CRC_LENGTH - 1) - i)) & 1;
-        }
-
-        return crc32;
-    }
 }

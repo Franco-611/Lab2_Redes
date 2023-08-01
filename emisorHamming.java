@@ -21,9 +21,8 @@ public class emisorHamming {
         char[] hammingCode = generateHammingCode(input, r);
 
         System.out.println("El mensaje en binario con la informacion adicional es: ");
-        for (int i = hammingCode.length - 1; i >= 0; i--) {
-            System.out.print(hammingCode[i]);
-        }
+
+        System.out.println(hammingCode);
     }
 
     private static int calculateNumberOfParityBits(int dataLength) {
