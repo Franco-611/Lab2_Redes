@@ -14,6 +14,19 @@ public class emisorHamming {
             return;
         }
 
+        // Convertir la trama a un arreglo de caracteres
+        char[] binaryArray = input.toCharArray();
+
+        // Invertir la trama en el mismo arreglo
+        for (int i = 0; i < binaryArray.length / 2; i++) {
+            char temp = binaryArray[i];
+            binaryArray[i] = binaryArray[binaryArray.length - 1 - i];
+            binaryArray[binaryArray.length - 1 - i] = temp;
+        }
+
+        // Convertir el arreglo de caracteres nuevamente a una cadena
+        input = String.valueOf(binaryArray);
+
         // Calcular la cantidad de bits de paridad necesarios
         int r = calculateNumberOfParityBits(input.length());
 
