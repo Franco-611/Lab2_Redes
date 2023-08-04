@@ -2,20 +2,15 @@ import java.util.Scanner;
 
 public class emisorHamming {
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Ingrese una trama en binario: ");
-        String input = scanner.nextLine();
-
+    public static String calculateHamming(String mensajeBinario) {
         // Verificar si la trama ingresada es válida (solo 0s y 1s)
-        if (!input.matches("[01]+")) {
+        if (!mensajeBinario.matches("[01]+")) {
             System.out.println("Trama no válida. Ingrese solo 0s y 1s.");
-            return;
+            return null;
         }
 
         // Convertir la trama a un arreglo de caracteres
-        char[] binaryArray = input.toCharArray();
+        char[] binaryArray = mensajeBinario.toCharArray();
 
         // Invertir la trama en el mismo arreglo
         for (int i = 0; i < binaryArray.length / 2; i++) {
@@ -25,17 +20,16 @@ public class emisorHamming {
         }
 
         // Convertir el arreglo de caracteres nuevamente a una cadena
-        input = String.valueOf(binaryArray);
+        String input = String.valueOf(binaryArray);
 
         // Calcular la cantidad de bits de paridad necesarios
         int r = calculateNumberOfParityBits(input.length());
 
         // Crear un array de caracteres que contenga la trama y los bits de paridad
-        char[] hammingCode = generateHammingCode(input, r);
+        String hammingCode = generateHammingCode(input, r);
 
-        System.out.println("El mensaje en binario con la informacion adicional es: ");
-
-        System.out.println(hammingCode);
+        return hammingCode;
+        
     }
 
     private static int calculateNumberOfParityBits(int dataLength) {
@@ -49,7 +43,7 @@ public class emisorHamming {
         return r;
     }
 
-    private static char[] generateHammingCode(String input, int r) {
+    private static String generateHammingCode(String input, int r) {
         int dataLength = input.length();
         int hammingCodeLength = dataLength + r;
         char[] hammingCode = new char[hammingCodeLength];
@@ -86,6 +80,8 @@ public class emisorHamming {
             hammingCode[bitPosition - 1] = (onesCount % 2 == 0) ? '0' : '1';
         }
 
-        return hammingCode;
+        String hammingCode_str = new String(hammingCode);
+        System.out.println(hammingCode_str)
+        return hammingCode_str;
     }
 }
