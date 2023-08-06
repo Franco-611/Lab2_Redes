@@ -42,7 +42,7 @@ def detect_error(hamming_code):
     if hay_solo_ceros:
         return 0
     else:
-        return decimal_value 
+        return decimal_value
 
 
 def correct_error(hamming_code, error_bit):
@@ -56,21 +56,25 @@ def correct_error(hamming_code, error_bit):
 
 
 
-def receive_message(encoded_message):
+def receive_messageH(encoded_message):
     hamming_code = encoded_message.strip()
-    error_bit = detect_error(hamming_code)
+    error_bit= detect_error(hamming_code)
 
-    if error_bit == 0:
-        print("No se detectaron errores. Trama recibida:")
-        print(hamming_code)
-    else:
-        corrected_hamming_code = correct_error(hamming_code, error_bit)
-        print("Se detectaron errores y se corrigieron.")
-        print(f"Posición del bit erróneo: {error_bit}")
-        print("Trama corregida:")
-        print(corrected_hamming_code)
+
+    return error_bit
+
+    # if error_bit == 0:
+    #     print("No se detectaron errores. Trama recibida:")
+    #     print(hamming_code)
+
+    # else:
+    #     corrected_hamming_code = correct_error(hamming_code, error_bit)
+    #     print("Se detectaron errores y se corrigieron.")
+    #     print(f"Posición del bit erróneo: {error_bit}")
+    #     print("Trama corregida:")
+    #     print(corrected_hamming_code)
 
 
 if __name__ == "__main__":
     input_message = input("Ingrese el mensaje en binario con información adicional: ")
-    receive_message(input_message)
+    receive_messageH(input_message)
