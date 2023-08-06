@@ -33,18 +33,18 @@ public class emisor {
             String binaryChar = Integer.toBinaryString(c);
             mensajeBinario.append(String.format("%8s", binaryChar).replace(' ', '0'));
         }
+
+        String string_binario = mensajeBinario.toString();
         
-        System.out.println("Mensaje codificado en binario: " + mensajeBinario.toString());
+        System.out.println("Mensaje codificado en binario: " + string_binario);
 
         if (opcion == 1) {
-            String hamming = emisorHamming.calculateHamming(mensajeBinario);
+            String hamming = emisorHamming.calculateHamming(string_binario);
             System.out.println(hamming);
         } else if (opcion == 2) {
-            String crc = emisorCRC.calculateCRCWithInput(mensajeBinario);
+            String crc = emisorCRC.calculateCRCWithInput(string_binario);
             System.out.println(crc);
         }
-
-
 
         scanner.close();
     }

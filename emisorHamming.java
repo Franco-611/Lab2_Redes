@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class emisorHamming {
 
     public static String calculateHamming(String mensajeBinario) {
@@ -81,7 +79,6 @@ public class emisorHamming {
         }
 
         String hammingCode_str = new String(hammingCode);
-        System.out.println(hammingCode_str)
         return hammingCode_str;
     }
 }

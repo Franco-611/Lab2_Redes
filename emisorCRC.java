@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class emisorCRC {
 
@@ -10,7 +9,7 @@ public class emisorCRC {
 
     private static final int CRC_LENGTH = 33;
 
-    public static String calculateCRCWithInput(StringBuilder mensajeBinario) {
+    public static String calculateCRCWithInput(String mensajeBinario) {
         ArrayList<Integer> message = new ArrayList<>();
         for (int i = 0; i < mensajeBinario.length(); i++) {
             char c = mensajeBinario.charAt(i);
