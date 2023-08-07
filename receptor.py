@@ -14,7 +14,7 @@ respuesta = input("-> ")
 trama = input("Ingrese la trama en binario concatenado con la información adicional: ").strip()
 
 if respuesta == "1":
-    error_bit = receive_messageH(trama)
+    error_bit, paridad = receive_messageH(trama)
     if error_bit == 0:
         print("No se detectaron errores. Trama recibida:")
         print(trama)

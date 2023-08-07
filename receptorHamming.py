@@ -8,12 +8,14 @@ def calculate_parity_bits(data_length):
 def detect_error(hamming_code):
     r = calculate_parity_bits(len(hamming_code))
     r = len(hamming_code) - r
+    paridad = []
 
     final = []
 
     for i in range(r):
         parity_bit = 2 ** i
         if parity_bit <= len(hamming_code):
+            paridad.append(parity_bit)
             ones_count = 0
             temp = []
             for j in range(1, len(hamming_code) + 1):
@@ -40,9 +42,9 @@ def detect_error(hamming_code):
                 decimal_value = decimal_value * 2 + elemento
 
     if hay_solo_ceros:
-        return 0
+        return 0, paridad
     else:
-        return decimal_value
+        return decimal_value, paridad
 
 
 def correct_error(hamming_code, error_bit):
@@ -58,10 +60,10 @@ def correct_error(hamming_code, error_bit):
 
 def receive_messageH(encoded_message):
     hamming_code = encoded_message.strip()
-    error_bit= detect_error(hamming_code)
+    error_bit, paridad= detect_error(hamming_code)
 
 
-    return error_bit
+    return error_bit, paridad
 
     # if error_bit == 0:
     #     print("No se detectaron errores. Trama recibida:")
