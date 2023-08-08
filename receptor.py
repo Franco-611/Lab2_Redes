@@ -1,9 +1,15 @@
 from receptorCRC import *
 from receptorHamming import *
 
-def bits_to_letter(bits):
-    bit_string = ''.join(str(bit) for bit in bits)
-    return chr(int(bit_string, 2))
+def binary_to_ascii(binary_str):
+    ascii_str = ""
+    for i in range(0, len(binary_str), 8):
+        byte = binary_str[i:i+8]
+        decimal_value = int(byte, 2)
+        ascii_char = chr(decimal_value)
+        ascii_str += ascii_char
+
+    return ascii_str
 
 print("Seleccione el tipo de codificación que desea utilizar:")
 print("1. Hamming")
@@ -14,10 +20,12 @@ respuesta = input("-> ")
 trama = input("Ingrese la trama en binario concatenado con la información adicional: ").strip()
 
 if respuesta == "1":
-    error_bit, paridad = receive_messageH(trama)
+    error_bit, paridad = receive_message(trama)
     if error_bit == 0:
         print("No se detectaron errores. Trama recibida:")
-        print(trama)
+        binary_message = decode_hamming_to_data(trama, paridad)
+        print(binary_message)
+        print(binary_to_ascii(binary_message))
 
         
     else:
@@ -31,7 +39,7 @@ elif respuesta == "2":
 
     if 1 not in calculated_crc:
         print("Trama recibida sin errores:", ''.join(trama))
-        print("Mensaje original:", ''.join(bits_to_letter(message)))
+        print("Mensaje original:", ''.join(binary_to_ascii(message)))
 
     else:
         print("Se detectaron errores: La trama se descarta.")
