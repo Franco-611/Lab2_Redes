@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class emisor {
@@ -40,12 +41,39 @@ public class emisor {
 
         if (opcion == 1) {
             String hamming = emisorHamming.calculateHamming(string_binario);
+            System.out.println(hamming);
+            hamming = interferenceFunction(hamming); // Linea que causa la interferencia de los datos
             return hamming;
         } else if (opcion == 2) {
             String crc = emisorCRC.calculateCRCWithInput(string_binario);
+            System.out.println(crc);
+            crc = interferenceFunction(crc); // Linea que causa la interferencia de los datos
             return crc;
         }
-        
+
         return null;
     }
+
+    // Funcion para simular la interefencia de los datos
+    private static String interferenceFunction(String data){
+        String newData = "";
+        for(int i = 0; i < data.length(); i++){
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if(randomValue <= 0.5){
+                if(data.charAt(i) == '1'){
+                    newData = newData + "0";
+                }
+                else{
+                    newData = newData + "1";
+                }
+            }
+            else{
+                newData = newData + data.charAt(i);
+            }
+        }
+        return newData;
+    }
+
 }

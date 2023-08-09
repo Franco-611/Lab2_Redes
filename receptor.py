@@ -25,16 +25,15 @@ def messageDecoding(trama):
         if error_bit == 0:
             print("No se detectaron errores. Trama recibida:")
             binary_message = decode_hamming_to_data(trama, paridad)
-            print(binary_message)
-            print(binary_to_ascii(binary_message))
+            print("Mensaje original:", binary_to_ascii(binary_message))
 
             
         else:
             corrected_hamming_code = correct_error(trama, error_bit)
             print("Se detectaron errores y se corrigieron.")
             print(f"Posición del bit erróneo: {error_bit}")
-            print("Trama corregida:")
-            print(corrected_hamming_code)
+            binary_message = decode_hamming_to_data(corrected_hamming_code, paridad)
+            print("Mensaje original:", binary_to_ascii(binary_message))
     elif respuesta == "2":
         calculated_crc, message = receive_messageC(trama)
 
