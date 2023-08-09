@@ -77,18 +77,18 @@ for algo, error_count in final:
 
 for size, error_count in final2:
     if error_count == 1:
-        if size == 1:
+        if size == 2:
             error_count1 += 1
-        elif size == 2:
+        elif size == 5:
             error_count2 += 1
-        elif size == 3:
+        elif size == 7:
             error_count3 += 1
     elif error_count == 0:
-        if size == 1:
+        if size == 2:
             count1 += 1
-        elif size == 2:
+        elif size == 5:
             count2 += 1
-        elif size == 3:
+        elif size == 7:
             count3 += 1
     
     
@@ -103,7 +103,7 @@ plt.show()
 
 
 
-message_sizes = ['1', '2', '3']
+message_sizes = ['2', '5', '7']
 error_counts = [error_count1, error_count2, error_count3]
 no_error_counts = [count1, count2, count3]
 
