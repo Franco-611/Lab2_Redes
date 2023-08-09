@@ -11,21 +11,24 @@ def binary_to_ascii(binary_str):
 
     return ascii_str
 
-def messageDecoding(trama):
+def messageDecoding(trama, algorithm_option):
 
-    print("Seleccione el tipo de codificación que desea utilizar:")
-    print("1. Hamming")
-    print("2. CRC")
+    # print("Seleccione el tipo de codificación que desea utilizar:")
+    # print("1. Hamming")
+    # print("2. CRC")
 
-    respuesta = input("-> ")
+    # respuesta = input("-> ")
+    respuesta = algorithm_option
 
     print(trama)
-    if respuesta == "1":
+    print(respuesta)
+    if respuesta == 1:
         error_bit, paridad = receive_message(trama)
         if error_bit == 0:
             print("No se detectaron errores. Trama recibida:")
             binary_message = decode_hamming_to_data(trama, paridad)
             print("Mensaje original:", binary_to_ascii(binary_message))
+            err = "nada"
 
             
         else:
@@ -34,12 +37,17 @@ def messageDecoding(trama):
             print(f"Posición del bit erróneo: {error_bit}")
             binary_message = decode_hamming_to_data(corrected_hamming_code, paridad)
             print("Mensaje original:", binary_to_ascii(binary_message))
-    elif respuesta == "2":
+            err = "hamming"
+    elif respuesta == 2:
         calculated_crc, message = receive_messageC(trama)
 
         if 1 not in calculated_crc:
             print("Trama recibida sin errores:", ''.join(trama))
             print("Mensaje original:", ''.join(binary_to_ascii(message)))
+            err = "nada"
 
         else:
             print("Se detectaron errores: La trama se descarta.")
+            err = "crc"
+
+    return err
