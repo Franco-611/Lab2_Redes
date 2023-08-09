@@ -28,8 +28,8 @@ public class socketEmisor{
 		//mandar data 
 		System.out.println("Enviando Data\n");
 		writer = new OutputStreamWriter(socketCliente.getOutputStream());
-		String payload = "Hola Mundo Java 11";
-		writer.write(payload);	//enviar payload
+		String message = emisor.messageEncoding();
+		writer.write(message);	//enviar payload
 		Thread.sleep(100);
 
 		//limpieza

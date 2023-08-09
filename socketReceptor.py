@@ -1,4 +1,5 @@
 import socket
+import receptor
 
 HOST = "127.0.0.1"  # IP, capa de Red. 127.0.0.1 es localhost
 PORT = 65432        # Puerto, capa de Transporte
@@ -20,6 +21,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = conn.recv(1024)
             if not data:
                 break   #ya se recibio todo
-            print(f"Recibidoo: \n{data!r}\n{data!s}\n{data!a}") #!r !s !a, repr() str() ascii()
+            data = str(data)
+            receptor.messageDecoding(data[2:len(data) - 1])
+            # print(f"Recibidoo: \n{data!r}\n{data!s}\n{data!a}") #!r !s !a, repr() str() ascii()
             ##echo
             #conn.sendall(data)

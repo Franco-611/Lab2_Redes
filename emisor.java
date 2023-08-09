@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class emisor {
 
-    public static void main(String[] args) {
+    public static String messageEncoding() {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -19,7 +19,7 @@ public class emisor {
             System.out.println("Has elegido el Algoritmo de CRC32.");
         } else {
             System.out.println("Opción inválida. Saliendo del programa.");
-            return;
+            return null;
         }
 
         scanner.nextLine(); // Consumir el salto de línea pendiente
@@ -40,12 +40,12 @@ public class emisor {
 
         if (opcion == 1) {
             String hamming = emisorHamming.calculateHamming(string_binario);
-            System.out.println(hamming);
+            return hamming;
         } else if (opcion == 2) {
             String crc = emisorCRC.calculateCRCWithInput(string_binario);
-            System.out.println(crc);
+            return crc;
         }
-
-        scanner.close();
+        
+        return null;
     }
 }
